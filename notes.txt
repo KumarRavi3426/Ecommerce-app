@@ -123,4 +123,3 @@ in objectModel
 using serve
 
 at 4:35, adding filename because we used es6 module
-also see how to deploy a fullstack on vercel
