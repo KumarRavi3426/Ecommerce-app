@@ -30,11 +30,19 @@ export const registerController = async (req, res) => {
 
     //existing user
     if (existingUser) {
-      res.status(400).send({
+      return res.status(400).send({
         success: false,
         message: "User already exists, please login",
       });
     }
+
+    if (password.length < 6) {
+      return res.status(400).send({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
     //register user
     const hashedPassword = await hashPassword(password);
 
