@@ -21,7 +21,12 @@ connectDB();
 const app = express();
 
 //middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://client-weld-chi.vercel.app",
+    credentials: true, // if you're using cookies/auth headers
+  })
+);
 app.use(express.json());
 app.use(morgan("dev"));
 // app.use(express.static(path.join(__dirname, "./client/build")));
