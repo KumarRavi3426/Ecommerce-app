@@ -39,9 +39,6 @@ app.use(express.json());
 app.use(morgan("dev"));
 // app.use(express.static(path.join(__dirname, "./client/build")));
 
-app.get("/api/getkey", (req, res) =>
-  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
-);
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/category", categoryRoutes);
@@ -57,12 +54,10 @@ app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 // });
 
-//Only listen if not in serverless (local dev)
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 8080;
-  app.listen(PORT, () => {
-    console.log(`server running on ${PORT}`.bgCyan.white);
-  });
-}
+//PORT
+const PORT = process.env.PORT || 8080;
 
-export default app;
+//listen
+app.listen(PORT, () => {
+  console.log(`server running on ${PORT}`.bgCyan.white);
+});
