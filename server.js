@@ -57,10 +57,12 @@ app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 // });
 
-//PORT
-const PORT = process.env.PORT || 8080;
+//Only listen if not in serverless (local dev)
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 8080;
+  app.listen(PORT, () => {
+    console.log(`server running on ${PORT}`.bgCyan.white);
+  });
+}
 
-//listen
-app.listen(PORT, () => {
-  console.log(`server running on ${PORT}`.bgCyan.white);
-});
+export default app;
