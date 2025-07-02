@@ -2,6 +2,7 @@ import { instance } from "../server.js";
 import crypto from "crypto";
 import { Payment } from "../models/paymentModel.js";
 import { configDotenv } from "dotenv";
+import orderModel from "../models/orderModel.js";
 
 configDotenv();
 
@@ -11,6 +12,11 @@ export const checkout = async (req, res) => {
     currency: "INR",
   };
   const order = await instance.orders.create(options);
+  const newOrder = new orderModel({
+    products: req.body.cart,
+    buyer: req.user._id,
+  }).save();
+
 
   res.status(200).json({
     success: true,
@@ -33,13 +39,15 @@ export const paymentVerification = async (req, res) => {
 
   if (isAuthentic) {
     // Database comes here
-
-    await Payment.create({
+    
+    const payment = await new Payment({
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-    });
+    }).save();
 
+    // also find the order and update its payment
+    
     res.redirect(
       // `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
       `${process.env.FRONTEND_URL}/`
@@ -48,6 +56,8 @@ export const paymentVerification = async (req, res) => {
     // res.status(400).json({
     //   success: false,
     // });
+
+
     res.redirect(
       // `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
       `${process.env.FRONTEND_URL}/`
