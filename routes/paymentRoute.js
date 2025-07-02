@@ -4,7 +4,7 @@ import {
   paymentVerification,
 } from "../controllers/paymentController.js";
 import { requireSignIn } from "../middlewares/authMiddleware.js";
-import { dotenv } from 'dotenv';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
