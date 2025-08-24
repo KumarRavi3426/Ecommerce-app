@@ -6,7 +6,8 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import Razorpay from "razorpay";
 import connectDB from "./config/db.js";
-import paymentRoute from "./routes/paymentRoute.js"
+import { Payment } from "./models/paymentModel.js";
+import paymentRoute from "./routes/paymentRoute.js";
 import authRoute from "./routes/authRoute.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -21,8 +22,8 @@ connectDB();
 
 // RazorPay instance
 export const instance = new Razorpay({
-  key_id: process.env.RAZORPAY_API_KEY,
-  key_secret: process.env.RAZORPAY_APT_SECRET,
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 //rest object
@@ -39,11 +40,10 @@ app.use(express.json());
 app.use(morgan("dev"));
 // app.use(express.static(path.join(__dirname, "./client/build")));
 
-
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
-app.use("/api", paymentRoute);
+app.use("/api/v1/pay", paymentRoute);
 
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to ecommerce app</h1>");

@@ -5,21 +5,23 @@ const orderSchema = new mongoose.Schema(
     products: [
       {
         type: mongoose.ObjectId,
-        ref: "Products",
+        ref: "Product", // Use "Product" if your product model is named "Product"
       },
     ],
     payment: {
-      type: mongoose.ObjectId,
-      ref: "Payments"
+      type: mongoose.ObjectId, // razorpayOrderId
+      ref: "Payment",
     },
     buyer: {
       type: mongoose.ObjectId,
-      ref: "users",
+      ref: "User",
     },
     status: {
       type: String,
       default: "Not Process",
       enum: ["Not Process", "Processing", "Shipped", "delivered", "cancel"],
+      // Processing: after payment
+      // cancel: if payment failed
     },
   },
   { timestamps: true }

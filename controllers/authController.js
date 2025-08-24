@@ -209,6 +209,7 @@ export const getOrdersController = async (req, res) => {
       .find({ buyer: req.user._id })
       .populate("products", "-photo")
       .populate("buyer", "name")
+      .populate("payment", "status _id")
       .sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
@@ -227,6 +228,7 @@ export const getAllOrdersController = async (req, res) => {
       .find({})
       .populate("products", "-photo")
       .populate("buyer", "name")
+      .populate("payment", "status _id")
       .sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
