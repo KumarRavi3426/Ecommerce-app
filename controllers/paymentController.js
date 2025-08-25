@@ -47,7 +47,9 @@ export const paymentVerification = async (req, res) => {
 
     const payment = await instance.payments.fetch(razorpay_payment_id);
 
-    // ????? does this ensure payment is success or just captured as authentic
+    // Three Parts
+    // Payment authentic check, Payment is captured, Payment is settled
+
     // here I am changing the payment model, if payment is success, i.e. money is transferred
     // then, update orderModel.status = "Processing", else status="cancel"
     if (payment.status === "captured") {
